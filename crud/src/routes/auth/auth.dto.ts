@@ -13,6 +13,15 @@ export class LoginBodyDto {
   password: string
 }
 
+export class LoginResponseDto {
+  accessToken: string
+  refreshToken: string
+
+  constructor(partial: Partial<LoginResponseDto>) {
+    Object.assign(this, partial)
+  }
+}
+
 export class RegisterBodyDto extends LoginBodyDto {
   @IsNotEmpty()
   @IsString()
@@ -43,23 +52,15 @@ export class RegisterResponseDto {
   }
 }
 
-export class LoginResponseDto {
-  accessToken: string
+export class RefreshTokenBodyDto {
+  @IsNotEmpty()
+  @IsString()
   refreshToken: string
+}
 
-  constructor(partial: Partial<LoginResponseDto>) {
+export class RefreshTokenResponseDto extends LoginResponseDto {
+  constructor(partial: Partial<RefreshTokenResponseDto>) {
+    super(partial)
     Object.assign(this, partial)
   }
-}
-
-export class SignupBodyDto {
-  @IsEmail()
-  @IsNotEmpty()
-  email: string
-}
-
-export class SignupResponseDto {
-  @IsEmail()
-  @IsNotEmpty()
-  email: string
 }

@@ -2,10 +2,19 @@ import {
   Controller,
   Post,
   Body,
+  HttpCode,
+  HttpStatus,
   // UseInterceptors, ClassSerializerInterceptor, SerializeOptions
 } from '@nestjs/common'
 import { AuthService } from './auth.service'
-import { LoginBodyDto, LoginResponseDto, RegisterBodyDto, RegisterResponseDto } from './auth.dto'
+import {
+  LoginBodyDto,
+  LoginResponseDto,
+  RefreshTokenBodyDto,
+  RefreshTokenResponseDto,
+  RegisterBodyDto,
+  RegisterResponseDto,
+} from './auth.dto'
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
@@ -24,5 +33,12 @@ export class AuthController {
   async login(@Body() body: LoginBodyDto) {
     const tokens = await this.authService.login(body)
     return new LoginResponseDto(tokens)
+  }
+
+  @Post('refresh-token')
+  @HttpCode(HttpStatus.OK)
+  async refreshToken(@Body() body: RefreshTokenBodyDto) {
+    const tokens = await this.authService.refreshToken(body.refreshToken)
+    return new RefreshTokenResponseDto(tokens)
   }
 }
