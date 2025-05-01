@@ -1,14 +1,22 @@
-import { Controller, Post, Body } from '@nestjs/common'
+import {
+  Controller,
+  Post,
+  Body,
+  SerializeOptions,
+  // UseInterceptors, ClassSerializerInterceptor, SerializeOptions
+} from '@nestjs/common'
 import { AuthService } from './auth.service'
-import { RegisterBodyDto } from './auth.dto'
+import { RegisterBodyDto, RegisterResponseDto } from './auth.dto'
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  // @UseInterceptors(ClassSerializerInterceptor)
+  @SerializeOptions({
+    type: RegisterResponseDto,
+  })
   @Post('register')
   register(@Body() body: RegisterBodyDto) {
-    console.log('⭐ body', body)
-
     return this.authService.register(body)
   }
 

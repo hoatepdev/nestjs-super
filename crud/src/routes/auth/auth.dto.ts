@@ -1,5 +1,8 @@
 import { IsEmail, IsNotEmpty, IsString } from 'class-validator'
-
+import {
+  Exclude,
+  //  Expose
+} from 'class-transformer'
 export class LoginBodyDto {
   @IsEmail()
   @IsNotEmpty()
@@ -14,10 +17,30 @@ export class RegisterBodyDto extends LoginBodyDto {
   @IsNotEmpty()
   @IsString()
   name: string
+}
 
-  @IsNotEmpty()
-  @IsString()
-  confirmPassword: string
+export class RegisterResponseDto {
+  id: number
+
+  email: string
+
+  name: string
+
+  @Exclude()
+  password: string
+
+  //   @Expose()
+  //   get type() {
+  //     return 'register'
+  //   }
+
+  createdAt: Date
+
+  updatedAt: Date
+
+  constructor(partial: Partial<RegisterResponseDto>) {
+    Object.assign(this, partial)
+  }
 }
 
 export class SignupBodyDto {
