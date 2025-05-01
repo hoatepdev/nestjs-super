@@ -43,6 +43,15 @@ export class RegisterResponseDto {
   }
 }
 
+export class LoginResponseDto {
+  accessToken: string
+  refreshToken: string
+
+  constructor(partial: Partial<LoginResponseDto>) {
+    Object.assign(this, partial)
+  }
+}
+
 export class SignupBodyDto {
   @IsEmail()
   @IsNotEmpty()

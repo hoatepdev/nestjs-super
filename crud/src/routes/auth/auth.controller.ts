@@ -5,7 +5,7 @@ import {
   // UseInterceptors, ClassSerializerInterceptor, SerializeOptions
 } from '@nestjs/common'
 import { AuthService } from './auth.service'
-import { RegisterBodyDto, RegisterResponseDto } from './auth.dto'
+import { LoginBodyDto, LoginResponseDto, RegisterBodyDto, RegisterResponseDto } from './auth.dto'
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
@@ -20,8 +20,9 @@ export class AuthController {
     return new RegisterResponseDto(user)
   }
 
-  //   @Post('login')
-  //   login(@Body() body: any) {
-  //     return this.authService.login(body)
-  //   }
+  @Post('login')
+  async login(@Body() body: LoginBodyDto) {
+    const tokens = await this.authService.login(body)
+    return new LoginResponseDto(tokens)
+  }
 }
