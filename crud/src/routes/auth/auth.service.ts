@@ -4,6 +4,7 @@ import { LoginBodyDto, RegisterBodyDto } from './auth.dto'
 import { PrismaService } from 'src/shared/services/prisma.service'
 import { Prisma } from '@prisma/client'
 import { TokenService } from 'src/shared/services/token.service'
+import { omit } from 'lodash'
 @Injectable()
 export class AuthService {
   constructor(
@@ -16,9 +17,10 @@ export class AuthService {
     const hashedPassword = await this.hashingService.hashPassword(body.password)
 
     try {
+      const data = omit(body, 'confirmPassword')
       return this.prismaService.user.create({
         data: {
-          ...body,
+          ...data,
           password: hashedPassword,
         },
       })

@@ -1,8 +1,9 @@
-import { IsEmail, IsNotEmpty, IsString } from 'class-validator'
+import { IsEmail, IsNotEmpty, IsString, Length } from 'class-validator'
 import {
   Exclude,
   //  Expose
 } from 'class-transformer'
+import { Match } from 'src/shared/decorator/custom.validator.decorator'
 export class LoginBodyDto {
   @IsEmail()
   @IsNotEmpty()
@@ -10,6 +11,9 @@ export class LoginBodyDto {
 
   @IsNotEmpty()
   @IsString()
+  @Length(6, 20, {
+    message: 'Password must be between 6 and 20 characters',
+  })
   password: string
 }
 
@@ -26,6 +30,10 @@ export class RegisterBodyDto extends LoginBodyDto {
   @IsNotEmpty()
   @IsString()
   name: string
+
+  @IsString()
+  @Match('password')
+  confirmPassword: string
 }
 
 export class RegisterResponseDto {
