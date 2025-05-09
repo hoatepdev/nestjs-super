@@ -1,7 +1,7 @@
-/* eslint-disable @typescript-eslint/no-unsafe-return */
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common'
+import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common'
 import { PostsService } from './posts.service'
-
+import { ApiKeyGuard } from 'src/shared/guards/api-key.guard'
+import { AccessTokenGuard } from 'src/shared/guards/access-token.guard'
 export interface Post {
   id: string
   title: string
@@ -12,6 +12,8 @@ export interface Post {
 export class PostsController {
   constructor(private readonly postsService: PostsService) {}
   @Get()
+  @UseGuards(AccessTokenGuard)
+  @UseGuards(ApiKeyGuard)
   getPosts() {
     return this.postsService.getPosts()
   }
