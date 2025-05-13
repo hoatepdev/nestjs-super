@@ -7,7 +7,6 @@ import { config } from 'dotenv'
 config({ path: '.env' })
 
 if (!fs.existsSync(path.resolve('.env'))) {
-  console.log('⭐ .env file not found')
   process.exit(1)
 }
 
@@ -33,13 +32,11 @@ const configServer = plainToInstance(ConfigSchema, process.env, {
 const errors = validateSync(configServer)
 
 if (Array.isArray(errors) && errors.length > 0) {
-  console.log('⭐ errors', errors)
   const result = errors.map((error: ValidationError) => ({
     constraints: error?.constraints,
     property: error?.property,
     value: error?.value,
   }))
-  console.log('⭐ result', result)
 
   throw new Error(JSON.stringify(result))
 }

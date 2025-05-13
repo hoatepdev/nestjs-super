@@ -1,21 +1,15 @@
-/* eslint-disable @typescript-eslint/no-unsafe-return */
 import { Injectable } from '@nestjs/common'
 import { Post } from './posts.controller'
 import { PrismaService } from 'src/shared/services/prisma.service'
-import envConfig from 'src/shared/config'
 
 @Injectable()
 export class PostsService {
   constructor(private readonly prismaService: PrismaService) {}
   getPosts() {
-    console.log('⭐ envConfig', envConfig)
-
     return this.prismaService.post.findMany({})
   }
 
   createPost(body: Post) {
-    console.log('⭐ body', body)
-
     const userId = 1
     return this.prismaService.post.create({
       data: {
