@@ -63,9 +63,18 @@ export class RefreshTokenBodyDto {
   refreshToken: string
 }
 
-export class RefreshTokenResponseDto extends LoginResponseDto {
-  constructor(partial: Partial<RefreshTokenResponseDto>) {
+export class RefreshTokenResponseDTO extends LoginResponseDto {
+  constructor(partial: Partial<RefreshTokenResponseDTO>) {
     super(partial)
+    Object.assign(this, partial)
+  }
+}
+
+export class LogoutBodyDTO extends RefreshTokenBodyDto {}
+
+export class LogoutResponseDTO {
+  message: string
+  constructor(partial: Partial<LogoutResponseDTO>) {
     Object.assign(this, partial)
   }
 }
